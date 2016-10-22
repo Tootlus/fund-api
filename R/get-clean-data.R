@@ -1,6 +1,7 @@
 
 # lapply(fonds, head)
 
+#* @get /generateDb
 generateDb = function(path = NULL) {
     
     # Function for generating database from raw data files
@@ -51,6 +52,8 @@ generateDb = function(path = NULL) {
     fonds
 } 
 
+
+#* @get /getIndexFundsData
 getIndexFundsData <- function(path = NULL){
     
     message("Message: index fund raw data files must be named after ISIN codes.")
