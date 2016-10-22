@@ -61,7 +61,7 @@ getIndexFundsData <- function(path = NULL){
     indexFunds = list()
     for(i in indexFiles){
         
-        print(i)
+        # print(i)
         tmpdf = data.table::fread(i, skip = 1)
         isin  = stringr::str_split(basename(i),pattern = "\\.")[[1]][1]
         tmpdf$isin = isin

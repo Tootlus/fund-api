@@ -6,8 +6,9 @@ parseDate = function (val) { as.Date(val, format='%d.%m.%Y') }
 parseFloat = function (val) { as.numeric(sub(',', '.', val)) }
 parseDoubleQuotesDates = function (val) {as.Date(substr(val,3,12), format = "%d/%m/%Y")}
 parseDoubleQuotesNumeric = function (val) {
-    lengthOfVal = nchar(val)[1]
-    as.numeric(substr(val,3,lengthOfVal - 2))}
+    lengthOfVal = nchar(val)
+    as.numeric(substr(val,3,lengthOfVal - 2))
+}
 
 
 pensioniKeskusFileEncoding = 'UCS-2LE'
