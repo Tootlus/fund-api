@@ -54,7 +54,7 @@ generateDb = function(path = NULL) {
 
 
 #* @get /getIndexFundsData
-getIndexFundsData <- function(path = NULL){
+getIndexFundsData = function(path = NULL){
     
     message("Message: index fund raw data files must be named after ISIN codes.")
     message("Message: looking index fund data from ../idexfunds")
@@ -83,6 +83,11 @@ getIndexFundsData <- function(path = NULL){
     }
     indexFunds
 }
+
+
+#* @get /testPlumber
+testPlumber = function(a,b) mean(c(a,b))
+
 # TEST ----
 # setwd("Muu/r-stuff/garage-mudel/")
 # source("R/utils.r")
