@@ -1,15 +1,29 @@
+source('R/get-clean-data.R')
+source('R/utils.r')
 
-source("R/get-clean-data.R")
-source("R/utils.r")
+db = generateDb('/raw-data')
+indb = getIndexFundsData(path = '/raw-data')
 
-#* @get /generateDb
-api.generateDb = function(path = "/raw-data"){
-    generateDb(path = path)
+#* @get /getStats
+api.getStats = function (isin, fee=0.016) {
+	d = db[[isin]]
+
+	if (is.null(isin)) {
+		return('No such isin.')
+	}
+
+	getStats(d, as.numeric(fee))
 }
 
-#* @get /getIndexFundsData
-api.getIndexFundsData = function(path = "/raw-data"){
-    getIndexFundsData(path = path)
+#* @get /getComparison
+api.getComparison = function (isin, indexRatio=0.5, fee=0.016) {
+	d = db[[isin]]
+
+	if (is.null(isin)) {
+		return('No such isin.')
+	}
+
+	getStats(getComparisonIndexFond(d, indexRatio=as.numeric(indexRatio), indb=indb), fee)
 }
 
 #* @get /testPlumber
