@@ -46,6 +46,7 @@ generateDb = function(path = NULL) {
     
     fonds = lapply(fonds, calcStats)
     message("Message: deleted rows where volume == 0")
+    
 
     fonds
 } 
