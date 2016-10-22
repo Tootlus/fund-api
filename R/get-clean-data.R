@@ -44,18 +44,16 @@ generateDb = function(path = NULL) {
     
     fonds = lapply(fonds, calcStats)
     
-    # print("siin")
-    # add indexfunds data 
-    indexFundsData = getIndexFundsData(path = paste0(path, "/indexFunds"))  
-    
-    fonds = c(fonds, indexFundsData)
-    
     fonds
 } 
 
 getIndexFundsData <- function(path = NULL){
     
     message("Message: index fund raw data files must be named after ISIN codes.")
+    message("Message: looking index fund data from ../idexfunds")
+    
+    wd = getwd()
+    path = paste0(wd,path,"/indexfunds")
     
     indexFiles = list.files(path, full.names = T)
     indexFunds = list()
@@ -81,6 +79,6 @@ getIndexFundsData <- function(path = NULL){
 # TEST ----
 # setwd("Muu/r-stuff/garage-mudel/")
 # source("R/utils.r")
-# test = getIndexFundsData(path = "raw-data/indexfunds/"); head(test)
+# test = getIndexFundsData(path = "/raw-data"); head(test)
 # test = generateDb(path = "/raw-data")
 # lapply(test, head)
