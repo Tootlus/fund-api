@@ -2,5 +2,6 @@
 
 port=${1:-9002}
 
+rm -f .RDataTmp*
 kill $(ps aux | grep "$port" | grep plumb | awk '{print $2}')
 R --vanilla -e "library(plumber); pr <- plumb('api.R'); pr\$run(port=$port)"
