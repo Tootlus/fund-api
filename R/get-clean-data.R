@@ -38,14 +38,15 @@ generateDb = function(path = NULL) {
     df$nav    = parseFloat(df$NAV)
     df$volume = df$Maht
 
+    df = df[!df$volume == 0 & (!is.na(df$volume)),]
+
     # make list of fonds
     fonds = list()
     for(i in levels(df$ISIN)) fonds[[i]] = dplyr::filter(df, ISIN == i)
     
     fonds = lapply(fonds, calcStats)
     message("Message: deleted rows where volume == 0")
-    fonds = lapply(fonds, function(x) x[!x$volume == 0 & (!is.na(x$volume)),])
-    
+
     fonds
 } 
 
