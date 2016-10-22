@@ -83,7 +83,25 @@ getIndexFundsData = function(path = NULL){
     indexFunds
 }
 
+#* @get /testPlumber
 testPlumber = function(a,b) mean(c(a,b))
+
+calcStats = function (d) {
+    # arrange by date
+    d <- dplyr::arrange(d, time)
+    d$q = d$volume / d$nav
+
+    # Eeldame, et kp järgi sorteeritud
+    d$changeOfQ = d$q - c(0, d$q[1:(length(d$q)-1)])
+
+    d$cf = -d$changeOfQ*d$nav
+    # head(d$changeOfQ - d$q)
+    d$c  = d$volume / d$volume[1]
+
+    d = dplyr::select(d, isin = ISIN, fond = Fond, time, nav, volume,
+                                        quantity = q, changeOfQuantity = changeOfQ, cf, c)
+    d
+}
 
 # TEST ----
 # setwd("Muu/r-stuff/garage-mudel/")
