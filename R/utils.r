@@ -55,9 +55,14 @@ getStats = function (transactions, fee) {
 	pv=tvm::xnpv(i = r+fee, cf = -transactions$cf, d = transactions$time)
 	totalfee = (pv*(1+r+fee)**max(d$yrf))-last$volume
 	profit = last$volume-sum(-transactions$cf)
+	totalcf=sum(-transactions$cf)
 	return(list(
 		r=r,
 		pv=pv,
+		profitPerCf1000=1000*profit/totalcf,
+		startDate=min(transactions$time),
+		endDate=max(transactions$time),
+		totalcf=totalcf,
 		profit=profit,
 		totalfee=totalfee
 	))
