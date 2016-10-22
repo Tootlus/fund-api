@@ -9,7 +9,7 @@ generateDb = function(path = NULL) {
     #  path :  path to raw data folder
     
     # 
-    message("Message: working directory is expected to contain folder raw-data. Parameter 'path' should lead to /raw-data")
+    message("Message: working directory is expected to contain folder /raw-data. Parameter 'path' should lead to /raw-data")
     
     wd = getwd()
     path = paste0(wd,path)
@@ -43,6 +43,8 @@ generateDb = function(path = NULL) {
     for(i in levels(df$ISIN)) fonds[[i]] = dplyr::filter(df, ISIN == i)
     
     fonds = lapply(fonds, calcStats)
+    message("Message: deleted rows where volume == 0")
+    fonds = lapply(fonds, function(x) x[!x$volume == 0 & (!is.na(x$volume)),])
     
     fonds
 } 
