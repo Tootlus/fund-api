@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+destFolder='code/model'
+
+filearg=${@:1}
+files=${filearg:-"./*"}
+
+tar czf - $files --exclude="config.r" | ssh ubuntu@193.40.11.64 "mkdir -p  $destFolder; tar -C  $destFolder -xvzf -"
