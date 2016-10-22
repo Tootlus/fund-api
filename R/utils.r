@@ -1,6 +1,7 @@
-# install.packages(data.table)
-# install.packages(dplyr)
-# install.packages(tvm)
+# install.packages('data.table')
+# install.packages('dplyr')
+# install.packages('tvm')
+# install.packages('zoo')
 
 parseDate = function (val) { as.Date(val, format='%d.%m.%Y') }
 parseFloat = function (val) { as.numeric(sub(',', '.', val)) }
