@@ -4,6 +4,10 @@
 
 parseDate = function (val) { as.Date(val, format='%d.%m.%Y') }
 parseFloat = function (val) { as.numeric(sub(',', '.', val)) }
+parseDoubleQuotesDates = function (val) {as.Date(substr(val,3,12), format = "%d/%m/%Y")}
+parseDoubleQuotesNumeric = function (val) {as.numeric(substr(val,3,10))}
+
+
 pensioniKeskusFileEncoding = 'UCS-2LE'
 readFile = function (fileName) {
 	read.table(fileName, sep = '	', quote = '',
