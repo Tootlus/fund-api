@@ -1,5 +1,6 @@
 # install.packages(data.table)
 # install.packages(dplyr)
+# install.packages(tvm)
 
 parseDate = function (val) { as.Date(val, format='%d.%m.%Y') }
 parseFloat = function (val) { as.numeric(sub(',', '.', val)) }
@@ -60,7 +61,7 @@ getStats = function (transactions, fee) {
 	d$yrf = yearfrac(max(d$time), d$time)
 	d$m = d$cf*(1+r+fee)
 	d$pvgross = (-d$m)**(d$yrf)
-	pv=xnpv(i = r+fee, cf = -transactions$cf, d = transactions$time)
+	pv=tvm::xnpv(i = r+fee, cf = -transactions$cf, d = transactions$time)
 	totalfee = (pv*(1+r+fee)**max(d$yrf))-last$volume
 	profit = last$volume-sum(-transactions$cf)
 	return(list(
