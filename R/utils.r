@@ -67,3 +67,34 @@ getStats = function (transactions, fee) {
 		totalfee=totalfee
 	))
 }
+
+# Example:
+# getComparisonIndexFond(db$EE3600019782)
+# getComparisonIndexFond(db$EE3600019782, indexRatio = 0.25, indb = indb)
+getComparisonIndexFond = function (fond, indexRatio=0.5, indb=getIndexFundsData(path = '/raw-data')) {
+	if (indexRatio < 0 | indexRatio > 1) {
+		stop('indexRatio not in [0, 1]')
+	}
+	pen = fond
+	bnd = indb$IE0009591805
+	idx = indb$IE00B03HCZ61
+
+	mrg = merge(dplyr::select(pen, -nav, -c, -volume), dplyr::select(idx, time, idxPrice=nav), by = 'time', all.x = TRUE)
+	mrg = merge(mrg, dplyr::select(bnd, time, bndPrice=nav), by='time', all.x = TRUE)
+
+	mrg$fond = paste0(mrg$fond, ' vs ', as.integer(indexRatio), '/', as.integer(1-indexRatio))
+
+	mrg$idxPrice = zoo::na.locf(mrg$idxPrice)
+	mrg$idxChangeOfQuantity = -mrg$cf * indexRatio / mrg$idxPrice
+	mrg$idxQuantity = cumsum(mrg$idxChangeOfQuantity)
+	mrg$idxVolume = mrg$idxPrice * mrg$idxQuantity
+
+	mrg$bndPrice = zoo::na.locf(mrg$bndPrice)
+	mrg$bndChangeOfQuantity = -mrg$cf * (1-indexRatio) / mrg$bndPrice
+	mrg$bndQuantity = cumsum(mrg$bndChangeOfQuantity)
+	mrg$bndVolume = mrg$bndPrice * mrg$bndQuantity
+
+	mrg$volume = mrg$idxVolume + mrg$bndVolume
+
+	mrg
+}
