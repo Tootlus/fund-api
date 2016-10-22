@@ -1,4 +1,3 @@
-
 # install.packages(data.table)
 # install.packages(dplyr)
 
@@ -46,4 +45,28 @@ calcStats = function (d) {
 	d = dplyr::select(d, isin = ISIN, fond = Fond, time, nav, volume,
 										quantity = q, changeOfQuantity = changeOfQ, cf, c)
 	d
+}
+
+yearfrac = function(start, ends) {
+	as.numeric(difftime(start, ends, units = 'days')) / 365
+}
+
+getStats = function (transactions, fee) {
+	L = nrow(transactions)
+	last = transactions[L,]
+	last$cf = last$volume
+	d = rbind(transactions, last)
+	r = tvm::xirr(d$cf, d$time, interval=c(0,10), tol=.Machine$double.eps^0.5)
+	d$yrf = yearfrac(max(d$time), d$time)
+	d$m = d$cf*(1+r+fee)
+	d$pvgross = (-d$m)**(d$yrf)
+	pv=xnpv(i = r+fee, cf = -transactions$cf, d = transactions$time)
+	totalfee = (pv*(1+r+fee)**max(d$yrf))-last$volume
+	profit = last$volume-sum(-transactions$cf)
+	return(list(
+		r=r,
+		pv=pv,
+		profit=profit,
+		totalfee=totalfee
+	))
 }
