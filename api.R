@@ -13,6 +13,6 @@ api.getIndexFundsData = function(path = "/raw-data"){
 }
 
 #* @get /testPlumber
-api.testPlumber = function(a,b){
+api.testPlumber = function(a = 1, b = 2){
     testPlumber(a,b)
 }
