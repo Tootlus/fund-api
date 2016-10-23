@@ -108,7 +108,8 @@ getComparisonIndexFond = function (fond, indexRatio=0.5, indb=getIndexFundsData(
 	mrg = merge(dplyr::select(pen, -nav, -c, -volume), dplyr::select(idx, time, idxPrice=nav), by = 'time', all.x = TRUE)
 	mrg = merge(mrg, dplyr::select(bnd, time, bndPrice=nav), by='time', all.x = TRUE)
 
-	mrg$fond = paste0(mrg$fond, ' vs ', as.integer(indexRatio), '/', as.integer(1-indexRatio))
+	percentIndexRatio = round(100 * indexRatio)
+	mrg$fond = paste0(mrg$fond, ' vs ', percentIndexRatio, '/', 100 - percentIndexRatio)
 
 	mrg$idxPrice = zoo::na.locf(mrg$idxPrice)
 	mrg$idxChangeOfQuantity = -mrg$cf * indexRatio / mrg$idxPrice
