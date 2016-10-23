@@ -59,6 +59,8 @@ getStats = function (transactions, fee) {
 	totalProfit = last$volume-sum(-transactions$cf)
 	totalCf=sum(-transactions$cf)
 	return(list(
+		isin=last$isin,
+		name=last$fond,
 		r=r,
 		pv=pv,
 		profitPerCf1000=1000*totalProfit/totalCf,
