@@ -8,6 +8,8 @@ indb = getIndexFundsData(path = '/raw-data')
 api.getStats = function (isin, fee=0.016) {
 	d = db[[isin]]
 
+	message('Stats for ', isin);
+
 	if (is.null(d)) {
 		return(list(
 			message='Unknown isin.',
@@ -21,6 +23,8 @@ api.getStats = function (isin, fee=0.016) {
 #* @get /getComparison
 api.getComparison = function (isin, indexRatio=0.5, fee=0.016) {
 	d = db[[isin]]
+
+	message('Comparison between ', isin, ' and ', indexRatio)
 
 	if (is.null(d)) {
 		return(list(
