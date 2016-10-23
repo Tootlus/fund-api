@@ -83,11 +83,28 @@ getStatsTimeWindow = function(transactions, fee,
     #  start        : excpecting string formated as "2016-08-25"
     #  end          : excpecting string formated as "2016-08-25"
     
+    # print(nrow(transactions))
+    # if(is.null(nrow(transactions))) return(NULL)
+    # if(nrow(transactions) == 0 ) return(NULL)
+    
     start = as.Date(start)
     end   = as.Date(end)
     subTransactions = dplyr::filter(transactions, time >= start & time <= end)
     # !TODO - if timewindow sucks, recommend better one
     
+    if(nrow(subTransactions) == 0 | is.null(subTransactions) | is.null(nrow(subTransactions))){
+        return(list(
+            r=NA,
+            pv=NA,
+            profitPerCf1000=NA,
+            feePerCf1000=NA,
+            startDate=start,
+            endDate=end,
+            totalCf=NA,
+            totalProfit=NA,
+            totalFee=NA
+        ))
+    }
     # recalculating c, changeOfQ, cf
     subTransactions = dplyr::rename(subTransactions, ISIN = isin, Fond = fond)
     subTransactions = calcStats(subTransactions)

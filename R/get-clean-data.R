@@ -80,6 +80,8 @@ getIndexFundsData = function (path = NULL) {
 }
 
 calcStats = function (d) {
+    
+    # if(nrow(d) == 0 | is.null(nrow(d))) return(NULL)
     # arrange by date
     d <- dplyr::arrange(d, time)
     d$q = d$volume / d$nav
@@ -102,7 +104,13 @@ calcStats = function (d) {
 # test = getIndexFundsData(path = "/raw-data"); head(test)
 # test = generateDb(path = "/raw-data")
 # lapply(test, head)
-
-# tootlus on see kuidas arvutati xirri
-# test[[1]] %>% 
+# 
+# # tootlus on see kuidas arvutati xirri
+# test[[1]] %>%
 #     getStatsTimeWindow(fee = 0.016, start = "2016-01-01", end = Sys.Date())
+# 
+# # # tootluse muutus ajas - nädalane samm
+# dates = as.character(seq.Date(from = as.Date("2000-01-01"), to = Sys.Date(), by = "month"))
+# tootlusAjas = list()
+# for(i in dates) tootlusAjas[[i]] = getStatsTimeWindow(test[[1]], fee = 0.016, start = i, end = as.Date(i) + months(1))
+# tmp = data.table::rbindlist(tootlusAjas)
