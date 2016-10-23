@@ -102,3 +102,7 @@ calcStats = function (d) {
 # test = getIndexFundsData(path = "/raw-data"); head(test)
 # test = generateDb(path = "/raw-data")
 # lapply(test, head)
+
+# tootlus on see kuidas arvutati xirri
+# test[[1]] %>% 
+#     getStatsTimeWindow(fee = 0.016, start = "2016-01-01", end = Sys.Date())

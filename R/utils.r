@@ -44,10 +44,12 @@ yearfrac = function(start, ends) {
 }
 
 getStats = function (transactions, fee) {
+    # transactions - ühe fondi andmed ???
 	L = nrow(transactions)
 	last = transactions[L,]
 	last$cf = last$volume
 	d = rbind(transactions, last)
+	# r - tootlus
 	r = tvm::xirr(d$cf, d$time, interval=c(0,10), tol=.Machine$double.eps^0.5)
 	d$yrf = yearfrac(max(d$time), d$time)
 	d$m = d$cf*(1+r+fee)
@@ -67,6 +69,29 @@ getStats = function (transactions, fee) {
 		totalfee=totalfee
 	))
 }
+
+
+getStatsTimeWindow = function(transactions, fee, 
+                              start = "2000-01-01", end = "2017-01-01"){
+    
+    # Args
+    #  transactions :
+    #  fee          :
+    #  start        : excpecting string formated as "2016-08-25"
+    #  end          : excpecting string formated as "2016-08-25"
+    
+    start = as.Date(start)
+    end   = as.Date(end)
+    subTransactions = dplyr::filter(transactions, time >= start & time <= end)
+    # !TODO - if timewindow sucks, recommend better one
+    
+    # recalculating c, changeOfQ, cf
+    subTransactions = dplyr::rename(subTransactions, ISIN = isin, Fond = fond)
+    subTransactions = calcStats(subTransactions)
+    
+    getStats(transactions = subTransactions, fee = fee)
+}
+
 
 # Example:
 # getComparisonIndexFond(db$EE3600019782)
