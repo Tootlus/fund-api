@@ -79,9 +79,6 @@ getIndexFundsData = function (path = NULL) {
     indexFunds
 }
 
-#* @get /testPlumber
-testPlumber = function (a,b) mean(c(a,b))
-
 calcStats = function (d) {
     # arrange by date
     d <- dplyr::arrange(d, time)

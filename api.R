@@ -25,8 +25,3 @@ api.getComparison = function (isin, indexRatio=0.5, fee=0.016) {
 
 	getStats(getComparisonIndexFond(d, indexRatio=as.numeric(indexRatio), indb=indb), fee)
 }
-
-#* @get /testPlumber
-api.testPlumber = function(a = 1, b = 2){
-    testPlumber(a,b)
-}
