@@ -66,7 +66,7 @@ getStats = function (transactions, fee) {
 		startDate=min(transactions$time),
 		endDate=max(transactions$time),
 		totalCf=totalCf,
-		totalProfit=profit,
+		totalProfit=totalProfit,
 		totalFee=totalFee
 	))
 }
