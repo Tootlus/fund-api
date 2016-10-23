@@ -33,5 +33,5 @@ api.getComparison = function (isin, indexRatio=0.5, fee=0.016) {
 		))
 	}
 
-	getStats(getComparisonIndexFond(d, indexRatio=as.numeric(indexRatio), indb=indb), fee)
+	getStats(getComparisonIndexFond(d, indexRatio=as.numeric(indexRatio), indb=indb), as.numeric(fee))
 }
