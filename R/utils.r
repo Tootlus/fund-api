@@ -63,6 +63,7 @@ getStats = function (transactions, fee) {
 		name=last$fond,
 		r=r,
 		pv=pv,
+		fee=fee,
 		profitPerCf1000=1000*totalProfit/totalCf,
 		feePerCf1000=1000*totalFee/totalCf,
 		startDate=min(transactions$time),
