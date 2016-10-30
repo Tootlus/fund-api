@@ -15,7 +15,7 @@ parseDoubleQuotesNumeric = function (val) {
 pensioniKeskusFileEncoding = 'UCS-2LE'
 readFile = function (fileName) {
 	read.table(fileName, sep = '	', quote = '',
-						header = TRUE, fileEncoding = pensioniKeskusFileEncoding)
+						header = TRUE)
 }
 mergeData = function (assets, nav) {
 

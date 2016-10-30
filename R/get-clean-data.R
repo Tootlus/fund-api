@@ -2,6 +2,18 @@
 
 source('R/utils.r')
 
+readDataFiles = function (dataDir) {
+    files  = list.files(dataDir, full.names = T)
+
+    contents = list()
+    for (i in files) {
+        message('reading ', i)
+        contents[[i]] = readFile(i)
+    }
+
+    data.table::rbindlist(contents)
+}
+
 generateDb = function (path = NULL) {
     # Function for generating database from raw data files
     #
@@ -13,22 +25,11 @@ generateDb = function (path = NULL) {
 
     wd = getwd()
     path = paste0(wd,path)
-    if(!all(c('NAV','maht','indexfunds') %in% list.files(path))) stop('"path" must direct to /raw-data
-                                                         folder with subdirectories "NAV" and "maht"')
+    if(!all(c('nav','vol') %in% list.files(path))) stop('"path" must direct to /raw-data
+                                                         folder with subdirectories "nav" and "vol"')
 
-    navFiles  = list.files(paste0(path,'/NAV'), full.names = T)
-    mahtFiles = list.files(paste0(path,'/maht'), full.names = T)
-
-    # read nav files
-    nav = list()
-    for(i in navFiles) nav[[i]] <- readFile(i)
-    nav = data.table::rbindlist(nav)
-
-    # read maht
-    maht = list()
-    for(j in mahtFiles) maht[[j]] <- readFile(j)
-    # lapply(maht,head)
-    maht = data.table::rbindlist(maht)
+    nav = readDataFiles(paste0(path,'/nav'))
+    maht = readDataFiles(paste0(path,'/vol'))
 
     # merged data
     df = merge(nav, maht, by = c('Kuupäev', 'Fond', 'Lühinimi', 'ISIN'))
