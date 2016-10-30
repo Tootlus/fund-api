@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+
+today=`date +%d.%m.%Y`
+
+dir_data="../raw-data"
+dir_nav="$dir_data/nav"
+dir_vol="$dir_data/vol"
+
+params_date="/?date_from=07.01.2003&date_to=$today&"
+params_lhv="f%5B%5D=44&f%5B%5D=35&f%5B%5D=45&f%5B%5D=47&f%5B%5D=39&f%5B%5D=46&f%5B%5D=38&f%5B%5D=59&download=xls"
+params_nordea="f%5B%5D=48&f%5B%5D=57&f%5B%5D=49&f%5B%5D=50&download=xls"
+params_seb="f%5B%5D=56&f%5B%5D=60&f%5B%5D=51&f%5B%5D=61&download=xls"
+params_swed="f%5B%5D=58&f%5B%5D=36&f%5B%5D=37&f%5B%5D=52&download=xls"
+
+url_base="http://www.pensionikeskus.ee/statistika/ii-sammas/kogumispensioni-fondide"
+url_nav="$url_base-nav$params_date"
+url_vol="$url_base-maht$params_date"
+
+mkdir -p $dir_nav
+mkdir -p $dir_vol
+
+wget -nv $url_nav$params_lhv -O - | iconv -f UCS-2LE -t utf-8 > $dir_nav/lhv.tsv &
+wget -nv $url_nav$params_nordea -O - | iconv -f UCS-2LE -t utf-8 > $dir_nav/nordea.tsv &
+wget -nv $url_nav$params_seb -O - | iconv -f UCS-2LE -t utf-8 > $dir_nav/seb.tsv &
+wget -nv $url_nav$params_swed -O - | iconv -f UCS-2LE -t utf-8 > $dir_nav/swed.tsv &
+wait
+
+wget -nv $url_vol$params_lhv -O - | iconv -f UCS-2LE -t utf-8 > $dir_vol/lhv.tsv &
+wget -nv $url_vol$params_nordea -O - | iconv -f UCS-2LE -t utf-8 > $dir_vol/nordea.tsv &
+wget -nv $url_vol$params_seb -O - | iconv -f UCS-2LE -t utf-8 > $dir_vol/seb.tsv &
+wget -nv $url_vol$params_swed -O - | iconv -f UCS-2LE -t utf-8 > $dir_vol/swed.tsv &
+wait
+
+echo "tsv files updated."
